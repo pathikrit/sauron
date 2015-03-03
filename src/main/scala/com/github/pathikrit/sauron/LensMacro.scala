@@ -3,6 +3,14 @@ package com.github.pathikrit.sauron
 import scala.annotation.tailrec
 import scala.reflect.macros.blackbox
 
+class Lens[A, B](obj: A, leafModifier: (A, B => B) => A) {
+  def apply(modifier: B => B): A = leafModifier(obj, modifier)
+}
+
+object Lens {
+  def apply[A, B](obj: A)(path: A => B): Lens[A, B] = macro LensMacro.modifyImpl[A, B]
+}
+
 object LensMacro {
   /**
    * modify(a)(_.b.c) => new Lens(a, (a, f) => a.copy(b = a.b.copy(c = f(a.b.c))))
