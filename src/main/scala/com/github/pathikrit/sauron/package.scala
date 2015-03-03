@@ -9,12 +9,12 @@ package object sauron {
   }
 
   object Lens {
-    def apply[A, B](obj: A)(path: A => B): Lens[A, B] = macro modifyImpl[A, B]
+    def apply[A, B](obj: A)(path: A => B): Lens[A, B] = macro lensImpl[A, B]
 
     /**
      * Lens(a)(_.b.c) => new Lens(a, (a, f) => a.copy(b = a.b.copy(c = f(a.b.c))))
      */
-    def modifyImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
+    def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
       import c.universe._
 
       /**
