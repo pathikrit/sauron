@@ -7,5 +7,5 @@ package object sauron {
     def using(mod: U => U): T = doModify(obj, mod)
   }
 
-  def modify[T, U](obj: T)(path: T => U): PathModify[T, U] = macro QuicklensMacros.modify_impl[T, U]
+  def modify[T, U](obj: T)(path: T => U): PathModify[T, U] = macro QuicklensMacros.modifyImpl[T, U]
 }

@@ -7,7 +7,7 @@ object QuicklensMacros {
   /**
    * modify(a)(_.b.c) => new PathMod(a, (A, F) => A.copy(b = A.b.copy(c = F(A.b.c))))
    */
-  def modify_impl[T, U](c: blackbox.Context)(obj: c.Expr[T])(path: c.Expr[T => U]): c.Tree = {
+  def modifyImpl[T, U](c: blackbox.Context)(obj: c.Expr[T])(path: c.Expr[T => U]): c.Tree = {
     import c.universe._
 
     /**
@@ -40,15 +40,10 @@ object QuicklensMacros {
      */
     def generateSelects(rootPathEl: c.TermName, pathEls: List[c.TermName]): c.Tree = {
       @tailrec
-      def go(els: List[c.TermName], result: c.Tree): c.Tree = {
-        els match {
-          case Nil => result
-          case pathEl :: tail =>
-            val select = q"$result.$pathEl"
-            go(tail, select)
-        }
+      def go(els: List[c.TermName], result: c.Tree): c.Tree = els match {
+        case Nil => result
+        case pathEl :: tail => go(tail, q"$result.$pathEl")
       }
-
       go(pathEls, Ident(rootPathEl))
     }
 
