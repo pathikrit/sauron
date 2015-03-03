@@ -7,7 +7,7 @@ object LensMacro {
   /**
    * modify(a)(_.b.c) => new PathMod(a, (a, f) => a.copy(b = a.b.copy(c = f(a.b.c))))
    */
-  def modifyImpl[T, U](c: blackbox.Context)(obj: c.Expr[T])(path: c.Expr[T => U]): c.Tree = {
+  def modifyImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
     import c.universe._
 
     /**
