@@ -13,13 +13,10 @@ object LensMacro {
     /**
      * _.a.b.c => List(a, b, c)
      */
-    @tailrec
-    def collectPathElements(tree: c.Tree, acc: List[c.TermName]): List[c.TermName] = {
-      tree match {
-        case q"$parent.$child" => collectPathElements(parent, child :: acc)
-        case t: Ident => acc
-        case _ => c.abort(c.enclosingPosition, "Unsupported path element: " + tree)
-      }
+    def collectPathElements(tree: c.Tree): List[c.TermName] = tree match {
+      case q"$parent.$child" => collectPathElements(parent) :+ child
+      case t: Ident => Nil
+      case _ => c.abort(c.enclosingPosition, s"Unsupported path element: $tree")
     }
 
     /**
@@ -48,7 +45,7 @@ object LensMacro {
     }
 
     val pathEls = path.tree match {
-      case q"($arg) => $pathBody" => collectPathElements(pathBody, Nil)
+      case q"($arg) => $pathBody" => collectPathElements(pathBody)
       case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...), got: ${path.tree}")
     }
 
