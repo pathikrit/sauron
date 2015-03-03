@@ -13,7 +13,7 @@ class SauronSuite extends FunSuite {
     val p1 = Person("Rick", Address(Street("Rock St"), "MtV", "CA", "94041", "USA"))
     def addHouseNumber(st: String) = s"1901 $st"
 
-    val p2 = Lens(p1)(_.address.street.name)(addHouseNumber)
+    val p2 = lens(p1)(_.address.street.name)(addHouseNumber)
     p2 shouldEqual p1.copy(address = p1.address.copy(street = p1.address.street.copy(name = addHouseNumber(p1.address.street.name))))
   }
 }
