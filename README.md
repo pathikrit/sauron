@@ -1,7 +1,7 @@
 Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master)](http://travis-ci.org/pathikrit/sauron)
 --------
 
-Probably the simplest [Scala lens macro](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) out there.
+Probably the simplest [Scala lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) possible.
 Code speaks more than a thousand words:
 
 ```scala
