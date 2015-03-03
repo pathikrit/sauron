@@ -11,6 +11,7 @@ case class Address(street: Street)
 case class Street(name: String)
 
 val person = Person(Address(Street("1 Functional Rd.")))
+
 lens(person)(_.address.street.name)(_.toUpperCase)
 ```
 
