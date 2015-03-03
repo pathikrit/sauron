@@ -3,9 +3,9 @@ package com.github.pathikrit.sauron.suites
 import org.scalatest._, Matchers._
 
 class SauronSuite extends FunSuite {
-  import com.github.pathikrit.sauron._
-
   test("basic lensing") {
+    import com.github.pathikrit.sauron._
+
     case class Street(name: String)
     case class Address(street: Street, city: String, state: String, zip: String, country: String)
     case class Person(name: String, address: Address)
