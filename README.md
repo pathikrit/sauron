@@ -35,3 +35,7 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion
 ```
 
 The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
+
+Trivia:
+* Why Sauron? Something to do with lenses and the fact that Sauron has an all-seeing eye...
+* The [source code of this library](src/main/scala/com/github/pathikrit/sauron/package.scala) is shorter than this README :)

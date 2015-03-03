@@ -21,7 +21,7 @@ package object sauron {
 
     path.tree match {
       case q"($_) => $accessor" => split(accessor) match {
-        case p :: ps => q"$obj.copy($p = lens($obj.$p)(${join(ps)})($modifier))"  // lens(a)(_.b.c)(f) = a.copy(b = lens(a.b)(_.c)(f)
+        case p :: ps => q"$obj.copy($p = lens($obj.$p)(${join(ps)})($modifier))"  // lens(a)(_.b.c)(f) = a.copy(b = lens(a.b)(_.c)(f))
         case Nil => q"$modifier($obj)"                                            // lens(x)(_)(f) = f(x)
       }
       case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...), got: ${path.tree}")
