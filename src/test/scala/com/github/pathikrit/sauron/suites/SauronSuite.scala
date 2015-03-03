@@ -13,8 +13,7 @@ class SauronSuite extends FunSuite {
     val p1 = Person(Address(Street("s1")))
     def changeName(n: String) = n+n
 
-    val p2 = modify(p1)(_.address.street.name).apply(changeName)
+    val p2 = lens(p1)(_.address.street.name).apply(changeName)
     p2 shouldEqual p1.copy(address = p1.address.copy(street = p1.address.street.copy(name = changeName(p1.address.street.name))))
-    "modify(p1)(_.address2.street.name).apply(changeName)" shouldNot compile
   }
 }

@@ -5,7 +5,7 @@ import scala.reflect.macros.blackbox
 
 object LensMacro {
   /**
-   * modify(a)(_.b.c) => new PathMod(a, (a, f) => a.copy(b = a.b.copy(c = f(a.b.c))))
+   * modify(a)(_.b.c) => new Lens(a, (a, f) => a.copy(b = a.b.copy(c = f(a.b.c))))
    */
   def modifyImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
     import c.universe._
