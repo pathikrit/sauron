@@ -14,29 +14,29 @@ package object sauron {
     import c.universe._
 
     val (x, p, f) = (obj, pathSelector, modifier)
-    def compileError(msg: String) = c.abort(c.enclosingPosition, msg)
 
     /**
      * _.p.q.r -> List(p, q, r)
      */
-    def reverse(tree: c.Tree): List[c.TermName] = tree match {
-      case q"$pq.$r" => reverse(pq) :+ r
+    def split(tree: c.Tree): List[c.TermName] = tree match {
+      case q"$pq.$r" => split(pq) :+ r
       case _: Ident => Nil
-      case _ => compileError(s"Unsupported path element: $tree")
+      case _ => c.abort(c.enclosingPosition, s"Unsupported path element: $tree")
+    }
+
+    /**
+     * List(p, q, r) -> _.p.q.r
+     */
+    def join(path: List[TermName]): c.Tree = (q"(x => x)" /: path) {
+      case (q"($arg) => $qr", p) => q"($arg) => $qr.$p"
     }
 
     p.tree match {
-      case q"($_) => $path" => reverse(path) match {
-        case p1 :: p2 :: p3 :: p4 :: p5 :: p6 :: Nil => q"$x.copy($p1 = lens($x.$p1)(_.$p2.$p3.$p4.$p5.$p6)($f))"
-        case p1 :: p2 :: p3 :: p4 :: p5 :: Nil => q"$x.copy($p1 = lens($x.$p1)(_.$p2.$p3.$p4.$p5)($f))"
-        case p1 :: p2 :: p3 :: p4 :: Nil => q"$x.copy($p1 = lens($x.$p1)(_.$p2.$p3.$p4)($f))"
-        case p1 :: p2 :: p3 :: Nil => q"$x.copy($p1 = lens($x.$p1)(_.$p2.$p3)($f))"
-        case p1 :: p2 :: Nil => q"$x.copy($p1 = lens($x.$p1)(_.$p2)($f))"
-        case p1 :: Nil => q"$x.copy($p1 = lens($x.$p1)(x => x)($f))"
+      case q"($_) => $path" => split(path) match {
+        case p :: ps => q"$x.copy($p = lens($x.$p)(${join(ps)})($f))"
         case Nil => q"$f($x)"
-        case _ => compileError(s"Too long of accessor path: ${p.tree}")
       }
-      case _ => compileError(s"Path must have shape: _.a.b.c.(...), got: ${p.tree}")
+      case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...), got: ${p.tree}")
     }
   }
 }
