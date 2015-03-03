@@ -1,7 +1,7 @@
 Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master)](http://travis-ci.org/pathikrit/sauron)
 --------
 
-Yet another [Scala lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in only [30-lines of code](src/main/scala/com/github/pathikrit/sauron/package.scala):
+[Lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in only [30-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
 
 ```scala
 import com.github.pathikrit.sauron._

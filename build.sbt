@@ -1,8 +1,8 @@
 name := "sauron"
 
-version := "0.0.1"
+version := "0.1.0"
 
-description := "Scala macro to generate nested case class lenses"
+description := "Yet another Scala lens macro"
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
