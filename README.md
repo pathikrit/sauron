@@ -17,7 +17,11 @@ lens(person)(_.address.street.name)(_.toUpperCase)
 
 There is zero overhead. The `lens` macro simply expands to this during compilation:
 ```scala
-person.copy(address = person.address.copy(street = person.address.street.copy(name = (person.address.street.name).toUpperCase)))
+person.copy(address = person.address.copy(
+  street = person.address.street.copy(
+    name = (person.address.street.name).toUpperCase)
+  )
+)
 ```
 
 Usage: In your `build.sbt`, add the following entries:
