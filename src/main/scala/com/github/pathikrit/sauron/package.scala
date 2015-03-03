@@ -9,13 +9,13 @@ package object sauron {
   def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B])(modifier: c.Expr[B => B]): c.Tree = {
     import c.universe._
 
-    def split(accessor: c.Tree): List[c.TermName] = accessor match {    // _.p.q.r -> List(p, q, r)
+    def split(accessor: c.Tree): List[c.TermName] = accessor match {    // (_.p.q.r) -> List(p, q, r)
       case q"$pq.$r" => split(pq) :+ r
       case _: Ident => Nil
       case _ => c.abort(c.enclosingPosition, s"Unsupported path element: $accessor")
     }
 
-    def join(pathTerms: List[TermName]): c.Tree = (q"(x => x)" /: pathTerms) {    // List(p, q, r) -> _.p.q.r
+    def join(pathTerms: List[TermName]): c.Tree = (q"(x => x)" /: pathTerms) {    // List(p, q, r) -> (_.p.q.r)
       case (q"($arg) => $pq", r) => q"($arg) => $pq.$r"
     }
 

@@ -3,7 +3,7 @@ package com.github.pathikrit.sauron.suites
 import org.scalatest._, Matchers._
 
 class SauronSuite extends FunSuite {
-  test("basic lensing") {
+  test("lensing") {
     import com.github.pathikrit.sauron._
 
     case class Person(name: String, address: Address)
@@ -16,6 +16,8 @@ class SauronSuite extends FunSuite {
     val p2 = lens(p1)(_.address.street.name)(addHouseNumber(1901))
     p2 shouldEqual p1.copy(address = p1.address.copy(street = p1.address.street.copy(name = addHouseNumber(1901)(p1.address.street.name))))
 
+    "lens(p1)(_.address.zip)(_.toUpperCase)" should compile
+    "lens(p1)(_.address.zip.length)(_ + 1)" shouldNot compile
     "lens(p1)(_.toString)(_.toUpperCase)" shouldNot compile
   }
 }
