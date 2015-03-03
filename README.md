@@ -35,6 +35,3 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion
 ```
 
 The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
-
-#### Acknowledgements
-This library began as a fork of [quicklens](https://github.com/adamw/quicklens).
