@@ -1,11 +1,11 @@
 Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master)](http://travis-ci.org/pathikrit/sauron)
 --------
 
-Probably the simplest [Scala lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) possible.
-Code speaks more than a thousand words:
+Probably the simplest [Scala lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) possible:
 
 ```scala
 import com.github.pathikrit.sauron._
+
 case class Person(address: Address)
 case class Address(street: Street)
 case class Street(name: String)
@@ -29,5 +29,4 @@ libraryDependencies += "com.github.pathikrit" %% "sauron" % "0.1.0"
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
 ```
 
-The latest published versions can be found here:
-http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
+The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
