@@ -7,5 +7,8 @@ package object sauron {
     def apply(modifier: B => B): A = leafModifier(obj, modifier)
   }
 
-  def lens[A, B](obj: A)(path: A => B): Lens[A, B] = macro LensMacro.modifyImpl[A, B]
+  object Lens {
+    def apply[A, B](obj: A)(path: A => B): Lens[A, B] = macro LensMacro.modifyImpl[A, B]
+  }
+
 }
