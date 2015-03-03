@@ -3,9 +3,9 @@ package com.github.pathikrit.sauron
 import scala.annotation.tailrec
 import scala.reflect.macros.blackbox
 
-object QuicklensMacros {
+object LensMacro {
   /**
-   * modify(a)(_.b.c) => new PathMod(a, (A, F) => A.copy(b = A.b.copy(c = F(A.b.c))))
+   * modify(a)(_.b.c) => new PathMod(a, (a, f) => a.copy(b = a.b.copy(c = f(a.b.c))))
    */
   def modifyImpl[T, U](c: blackbox.Context)(obj: c.Expr[T])(path: c.Expr[T => U]): c.Tree = {
     import c.universe._
@@ -49,7 +49,7 @@ object QuicklensMacros {
 
     val pathEls = path.tree match {
       case q"($arg) => $pathBody" => collectPathElements(pathBody, Nil)
-      case _ => c.abort(c.enclosingPosition, "Path must have shape: _.field1.field2.(...), got: " + path.tree)
+      case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...), got: ${path.tree}")
     }
 
     val rootPathEl = TermName(c.freshName()) // the root object (same as obj)
@@ -63,6 +63,6 @@ object QuicklensMacros {
 
     val rootPathElParamTree = ValDef(Modifiers(), rootPathEl, TypeTree(), EmptyTree)
     val fnParamTree = ValDef(Modifiers(), fn, TypeTree(), EmptyTree)
-    q"new PathModify($obj, ($rootPathElParamTree, $fnParamTree) => $copies)"
+    q"new Lens($obj, ($rootPathElParamTree, $fnParamTree) => $copies)"
   }
 }
