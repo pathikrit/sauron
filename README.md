@@ -6,21 +6,17 @@ Code speaks more than a thousand words:
 
 ```scala
 import com.github.pathikrit.sauron._
-
+case class Person(address: Address)
+case class Address(street: Street)
 case class Street(name: String)
-case class Address(street: Street, city: String, state: String, zip: String, country: String)
-case class Person(name: String, address: Address)
 
-val p1 = Person("Rick", Address(Street("Rock St"), "MtV", "CA", "94041", "USA"))
-def addHouseNumber(number: Int)(st: String) = s"$number $st"
-
-val p2 = Lens(p1)(_.address.street.name)(addHouseNumber(1901))
-assert(p2.address.street.name == "1901 Rock St")
+val person = Person(Address(Street("1 Functional Rd.")))
+lens(person)(_.address.street.name)(_.toUpperCase)
 ```
 
 There is zero overhead. The `lens` macro simply expands to this during compilation:
 ```scala
-p1.copy(address = p1.address.copy(street = p1.address.street.copy(name = addHouseNumber(1901)(p1.address.street.name))))
+person.copy(address = person.address.copy(street = person.address.street.copy(name = (person.address.street.name).toUpperCase)))
 ```
 
 Usage: In your `build.sbt`, add the following entries:

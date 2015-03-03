@@ -4,13 +4,13 @@ import scala.reflect.macros.blackbox
 
 package object sauron {
 
-  def lens[A, B](obj: A)(path: A => B)(modifier: B => B): A = macro lens2Impl[A, B]
+  def lens[A, B](obj: A)(path: A => B)(modifier: B => B): A = macro lensImpl[A, B]
 
   /**
    * lens(a)(_.b.c)(f) = a.copy(b = lens(a.b)(_.c)(f)
    * lens(x)(_)(f) = f(x)
    */
-  def lens2Impl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B])(modifier: c.Expr[B => B]): c.Tree = {
+  def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B])(modifier: c.Expr[B => B]): c.Tree = {
     import c.universe._
 
     def collectPathElements(tree: c.Tree): List[c.TermName] = tree match {
