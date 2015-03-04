@@ -4,10 +4,12 @@ import scala.reflect.macros.blackbox
 
 package object sauron {
 
-  type Lens[A, B] = (B => B) => A
-  type ~~>[A, B] = A => Lens[A, B]
+  type Setter[B] = B => B
+  type Updater[A, B] = Setter[B] => A
+  type ~~>[A, B] = A => Updater[A, B]
+  type Lens[A, B] = A ~~> B             // for those who don't like symbols
 
-  def lens[A, B](obj: A)(path: A => B): Lens[A, B] = macro lensImpl[A, B]
+  def lens[A, B](obj: A)(path: A => B): Updater[A, B] = macro lensImpl[A, B]
 
   def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
     import c.universe._

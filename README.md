@@ -1,7 +1,7 @@
 Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master)](http://travis-ci.org/pathikrit/sauron)
 --------
 
-[Lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in only [35-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
+[Lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in less than [40-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
 
 ```scala
 import com.github.pathikrit.sauron._
@@ -51,6 +51,6 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion
 ```
 
 Note: Significant changes were introduced in [v0.2](https://github.com/pathikrit/sauron/pull/3).
-[v0.1](https://github.com/pathikrit/sauron/tree/3bde2a2f27094390465cb05ff7692066a3d98d55) used to have an interesting recursive macro
+[v0.1](https://github.com/pathikrit/sauron/tree/3bde2a2f27094390465cb05ff7692066a3d98d55) used to have an interesting [recursive macro](http://stackoverflow.com/questions/28826053/scala-recursive-macro)
 
 The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
