@@ -51,3 +51,6 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion
 ```
 
 The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
+
+Note: Significant changes were introduced in [v0.2.0](https://github.com/pathikrit/sauron/pull/3).
+[v0.1.0](https://github.com/pathikrit/sauron/tree/3bde2a2f27094390465cb05ff7692066a3d98d55) used to have an interesting recursive macro
