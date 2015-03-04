@@ -54,3 +54,6 @@ Note: Significant changes were introduced in [v0.2](https://github.com/pathikrit
 [v0.1](https://github.com/pathikrit/sauron/tree/3bde2a2f27094390465cb05ff7692066a3d98d55) used to have an interesting [recursive macro](http://stackoverflow.com/questions/28826053/scala-recursive-macro)
 
 The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
+
+This library is inspired by the excellent work done by @adamw in his [quickLens]((https://github.com/adamw/quicklens) library.
+For advanced operations like lens composition etc, please consider a library like [Monocole](https://github.com/julien-truffaut/Monocle)
