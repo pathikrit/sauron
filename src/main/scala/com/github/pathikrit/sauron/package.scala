@@ -15,23 +15,17 @@ package object sauron {
       case _ => c.abort(c.enclosingPosition, s"Unsupported path element: $accessor")
     }
 
-    val f = TermName(c.freshName("f"))
-
-    def nest(prefix: c.Tree, suffix: List[TermName]): c.Tree = suffix match {
-      case p :: ps => q"$prefix.copy($p = ${nest(q"$prefix.$p", ps)})" //
-      case Nil => q"$f($prefix)"                                       //Reached the end, apply f
+    def nest(prefix: c.Tree, f: TermName, suffix: List[TermName]): c.Tree = suffix match {
+      case p :: ps => q"$prefix.copy($p = ${nest(q"$prefix.$p", f, ps)})" // Recursively nest the f
+      case Nil => q"$f($prefix)"                                          // Reached the end, apply f
     }
 
-    val code = path.tree match {
+    path.tree match {
       case q"($_) => $accessor" =>
+        val f = TermName(c.freshName("f"))
         val fParamTree = ValDef(Modifiers(), f, TypeTree(), EmptyTree)
-        q"{$fParamTree => ${nest(obj.tree, split(accessor))}}"
-      case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...), got: ${path.tree}")
+        q"{$fParamTree => ${nest(obj.tree, f, split(accessor))}}"
+      case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...); got: ${path.tree}")
     }
-
-    println("\n------")
-    println(code)
-
-    code
   }
 }

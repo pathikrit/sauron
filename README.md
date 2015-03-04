@@ -24,6 +24,20 @@ person.copy(address = person.address.copy(
 )
 ```
 
+Reusable lenses:
+```scala
+val f1 = lens(person)(_.address.street.name)
+val p1: Person = f1(_.toLowerCase)
+val p2: Person = f1(_.toUpperCase)
+```
+
+The above lens only updates a particular person. You can make even more generic lenses that can update any `Person`:
+```scala
+val f = lens(_: Person)(_.address.street.name)
+val p3: Person = f(p1)(_.toUpperCase)
+val p4: Person =f(p2)(_.toLowerCase)
+```
+
 Usage: In your `build.sbt`, add the following entries:
 
 ```scala
