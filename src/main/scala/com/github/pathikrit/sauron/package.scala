@@ -4,12 +4,15 @@ import scala.reflect.macros.blackbox
 
 package object sauron {
 
-  def lens[A, B](obj: A)(path: A => B): (B => B) => A = macro lensImpl[A, B]
+  type Lens[A, B] = (B => B) => A
+  type ~~>[A, B] = A => Lens[A, B]
+
+  def lens[A, B](obj: A)(path: A => B): Lens[A, B] = macro lensImpl[A, B]
 
   def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
     import c.universe._
 
-    def split(accessor: c.Tree): List[c.TermName] = accessor match {    // (_.p.q.r) -> List(p, q, r)
+    def split(accessor: c.Tree): List[c.TermName] = accessor match {      // (_.p.q.r) -> List(p, q, r)
       case q"$pq.$r" => split(pq) :+ r
       case _: Ident => Nil
       case _ => c.abort(c.enclosingPosition, s"Unsupported path element: $accessor")
