@@ -26,7 +26,7 @@ package object sauron {
     path.tree match {
       case q"($_) => $accessor" =>
         val f = TermName(c.freshName("f"))
-        val fParamTree = ValDef(Modifiers(), f, TypeTree(), EmptyTree)
+        val q"$fParamTree" = q"val $f = ${q""}"
         q"{$fParamTree => ${nest(obj.tree, f, split(accessor))}}"
       case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...); got: ${path.tree}")
     }
