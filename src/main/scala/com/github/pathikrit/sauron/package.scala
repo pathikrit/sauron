@@ -11,11 +11,6 @@ package object sauron {
 
   def lens[A, B](obj: A)(path: A => B): Updater[A, B] = macro lensImpl[A, B]
 
-  //TODO: Make this an implicit on Lens[A,B] ?
-  def compose[A, B, C](f: A ~~> B, g: B ~~> C): A ~~> C = {
-    (x: A) => (y: Setter[C]) => f(x)(g(_)(y))
-  }
-
   def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
     import c.universe._
 
@@ -37,5 +32,9 @@ package object sauron {
         q"{$fParamTree => ${nest(obj.tree, f, split(accessor))}}"
       case _ => c.abort(c.enclosingPosition, s"Path must have shape: _.a.b.c.(...); got: ${path.tree}")
     }
+  }
+
+  implicit class LensOps[A, B](f: A ~~> B) {
+    def composeLens[C](g: B ~~> C): A ~~> C = x => y => f(x)(g(_)(y))
   }
 }

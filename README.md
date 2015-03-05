@@ -27,6 +27,7 @@ person.copy(address = person.address.copy(
 Reusable lenses:
 ```scala
 val f1 = lens(person)(_.address.street.name)
+
 val p1: Person = f1(_.toLowerCase)
 val p2: Person = f1(_.toUpperCase)
 ```
@@ -34,6 +35,7 @@ val p2: Person = f1(_.toUpperCase)
 The above lens only updates a particular person. You can make even more generic lenses that can update any `Person`:
 ```scala
 val f = lens(_: Person)(_.address.street.name)
+
 val p3: Person = f(p1)(_.toUpperCase)
 val p4: Person = f(p2)(_.toLowerCase)
 ```
@@ -42,8 +44,9 @@ Lens composition:
 ```scala
 val lens1: Person ~~> Address = lens(_: Person)(_.address)
 val lens2: Address ~~> String = lens(_: Address)(_.street.name)
-val lens3: Person ~~> String = lens1 compose lens2
-lens3(person)(_.toLowerCase)
+val lens3: Person ~~> String = lens1 composeLens lens2
+
+val p5: Person = lens3(person)(_.toLowerCase)
 ```
 
 Consult [the tests](src/test/scala/com/github/pathikrit/sauron/suites/SauronSuite.scala) for more examples.
@@ -58,9 +61,4 @@ libraryDependencies += "com.github.pathikrit" %% "sauron" % "0.2.0"
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
 ```
 
-Note: Significant changes were introduced in [v0.2](https://github.com/pathikrit/sauron/pull/3).
-[v0.1](https://github.com/pathikrit/sauron/tree/3bde2a2f27094390465cb05ff7692066a3d98d55) used to have an interesting [recursive macro](http://stackoverflow.com/questions/28826053/scala-recursive-macro)
-
-The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
-
-This library is inspired by the excellent work done by @adamw in his [quicklens](https://github.com/adamw/quicklens) library.
+This library is inspired by the clever work done by @adamw in his [quicklens](https://github.com/adamw/quicklens) library.

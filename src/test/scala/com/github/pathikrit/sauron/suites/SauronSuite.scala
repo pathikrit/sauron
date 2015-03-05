@@ -27,7 +27,7 @@ class SauronSuite extends FunSuite {
 
     val lens1: Person ~~> Address = lens(_: Person)(_.address)
     val lens2: Address ~~> String = lens(_: Address)(_.street.name)
-    val lens3: Person ~~> String = compose(lens1, lens2)
+    val lens3: Person ~~> String = lens1 composeLens lens2
 
     lens3(p1)(_.toLowerCase) shouldEqual p3
 
