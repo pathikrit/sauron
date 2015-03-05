@@ -1,4 +1,4 @@
-Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master)](http://travis-ci.org/pathikrit/sauron)
+Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master)](http://travis-ci.org/pathikrit/sauron) [![Download](https://api.bintray.com/packages/pathikrit/maven/sauron/images/download.svg)](https://bintray.com/pathikrit/maven/sauron/_latestVersion)
 --------
 
 [Lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in less than [40-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
@@ -38,6 +38,14 @@ val p3: Person = f(p1)(_.toUpperCase)
 val p4: Person = f(p2)(_.toLowerCase)
 ```
 
+Lens composition:
+```scala
+val lens1: Person ~~> Address = lens(_: Person)(_.address)
+val lens2: Address ~~> String = lens(_: Address)(_.street.name)
+val lens3: Person ~~> String = lens1 compose lens2
+lens3(person)(_.toLowerCase)
+```
+
 Consult [the tests](src/test/scala/com/github/pathikrit/sauron/suites/SauronSuite.scala) for more examples.
 
 Usage: In your `build.sbt`, add the following entries:
@@ -55,5 +63,4 @@ Note: Significant changes were introduced in [v0.2](https://github.com/pathikrit
 
 The latest published versions can be found here: http://dl.bintray.com/pathikrit/maven/com/github/pathikrit
 
-For advanced operations like lens composition etc, please consider a library like [Monocle](https://github.com/julien-truffaut/Monocle).
-This library is inspired by the excellent work done by @adamw in his [quickLens](https://github.com/adamw/quicklens) library.
+This library is inspired by the excellent work done by @adamw in his [quicklens](https://github.com/adamw/quicklens) library.
