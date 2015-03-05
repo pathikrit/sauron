@@ -26,10 +26,11 @@ class SauronSuite extends FunSuite {
     p4.address.city shouldEqual "mtv"
 
     val lens1: Person ~~> Address = lens(_: Person)(_.address)
-    val lens2: Address ~~> String = lens(_: Address)(_.street.name)
-    val lens3: Person ~~> String = lens1 composeLens lens2
+    val lens2: Address ~~> Street = lens(_: Address)(_.street)
+    val lens3: Street ~~> String = lens(_: Street)(_.name)
 
-    lens3(p1)(_.toLowerCase) shouldEqual p3
+    val lens4: Person ~~> String = lens1 composeLens lens2 composeLens lens3
+    lens4(p1)(_.toLowerCase) shouldEqual p3
 
     "lens(p1)(_.address.zip)(_.toUpperCase)" should compile
     "lens(p1)(_.address.zip.length)(_ + 1)" shouldNot compile

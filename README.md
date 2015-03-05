@@ -44,8 +44,8 @@ Lens composition:
 ```scala
 val lens1: Person ~~> Address = lens(_: Person)(_.address)
 val lens2: Address ~~> String = lens(_: Address)(_.street.name)
-val lens3: Person ~~> String = lens1 composeLens lens2
 
+val lens3: Person ~~> String = lens1 composeLens lens2
 val p5: Person = lens3(person)(_.toLowerCase)
 ```
 
