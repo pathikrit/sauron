@@ -34,7 +34,7 @@ package object sauron {
     }
   }
 
-  implicit class LensOps[A, B](f: A ~~> B) {
+  implicit class LensOps[A, B](val f: A ~~> B) extends AnyVal {
     def composeLens[C](g: B ~~> C): A ~~> C = x => y => f(x)(g(_)(y))
   }
 }

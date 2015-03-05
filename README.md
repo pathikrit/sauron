@@ -4,13 +4,12 @@ Sauron [![Build Status](https://travis-ci.org/pathikrit/sauron.png?branch=master
 [Lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in less than [40-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
 
 ```scala
-import com.github.pathikrit.sauron._
-
 case class Person(address: Address)
 case class Address(street: Street)
 case class Street(name: String)
-
 val person = Person(Address(Street("1 Functional Rd.")))
+
+import com.github.pathikrit.sauron._
 
 lens(person)(_.address.street.name)(_.toUpperCase)
 ```
@@ -32,7 +31,7 @@ val p1: Person = f1(_.toLowerCase)
 val p2: Person = f1(_.toUpperCase)
 ```
 
-The above lens only updates a particular person. You can make even more generic lenses that can update any `Person`:
+Lens factories: The above lens only updates a particular person. You can make even more generic lenses that can update any `Person`:
 ```scala
 val f = lens(_: Person)(_.address.street.name)
 
@@ -56,7 +55,7 @@ Usage: In your `build.sbt`, add the following entries:
 ```scala
 resolvers += Resolver.bintrayRepo("pathikrit", "maven")
 
-libraryDependencies += "com.github.pathikrit" %% "sauron" % "1.0.0"
+libraryDependencies += "com.github.pathikrit" %% "sauron" % "1.0.1"
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
 ```
