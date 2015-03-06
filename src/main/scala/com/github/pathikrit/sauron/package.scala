@@ -4,10 +4,10 @@ import scala.reflect.macros.blackbox
 
 package object sauron {
 
-  type Setter[B] = B => B
-  type Updater[A, B] = Setter[B] => A
-  type ~~>[A, B] = A => Updater[A, B]
-  type Lens[A, B] = A ~~> B             // for those who don't like symbols
+  type Setter[A] = A => A                 // a function that updates a field
+  type Updater[A, B] = Setter[B] => A     // given a setter to update a nested field, return back the updated case class A when applied
+  type Lens[A, B] = A => Updater[A, B]    // lens from A to B means given an A, return an updater on A,B (see above)
+  type ~~>[A, B] = Lens[A, B]             // for those who prefer symbols
 
   def lens[A, B](obj: A)(path: A => B): Updater[A, B] = macro lensImpl[A, B]
 
@@ -35,7 +35,7 @@ package object sauron {
   }
 
   implicit class LensOps[A, B](val f: A ~~> B) extends AnyVal {
-    def andThenLens[C](g: B ~~> C): A ~~> C = g composeLens f
-    def composeLens[C](g: C ~~> A): C ~~> B = x => y => g(x)(f(_)(y))
+    def andThenLens[C](g: B ~~> C): A ~~> C = x => y => f(x)(g(_)(y))
+    def composeLens[C](g: C ~~> A): C ~~> B = g andThenLens f
   }
 }
