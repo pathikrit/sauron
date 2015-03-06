@@ -44,7 +44,7 @@ Lens composition:
 val lens1: Person ~~> Address = lens(_: Person)(_.address)
 val lens2: Address ~~> String = lens(_: Address)(_.street.name)
 
-val lens3: Person ~~> String = lens1 andThenLense lens2 // or lens2 composeLens lens1
+val lens3: Person ~~> String = lens1 andThenLens lens2 // or lens2 composeLens lens1
 val p5: Person = lens3(person)(_.toLowerCase)
 ```
 
@@ -55,7 +55,7 @@ Usage: In your `build.sbt`, add the following entries:
 ```scala
 resolvers += Resolver.bintrayRepo("pathikrit", "maven")
 
-libraryDependencies += "com.github.pathikrit" %% "sauron" % "1.0.1"
+libraryDependencies += "com.github.pathikrit" %% "sauron" % "1.1.0"
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
 ```

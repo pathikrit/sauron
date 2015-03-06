@@ -1,6 +1,6 @@
 name := "sauron"
 
-version := "1.0.1"
+version := "1.1.0"
 
 description := "Yet another Scala lens macro"
 
