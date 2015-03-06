@@ -5,7 +5,7 @@ import scala.reflect.macros.blackbox
 package object sauron {
 
   type Setter[A] = A => A                 // a function that updates a field
-  type Updater[A, B] = Setter[B] => A     // given a setter to update a nested field, return back the updated case class A when applied
+  type Updater[A, B] = Setter[B] => A     // given a setter to update a nested field, return back the updated parent
   type Lens[A, B] = A => Updater[A, B]    // lens from A to B means given an A, return an updater on A,B (see above)
   type ~~>[A, B] = Lens[A, B]             // for those who prefer symbols
 

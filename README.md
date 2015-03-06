@@ -23,7 +23,7 @@ person.copy(address = person.address.copy(
 )
 ```
 
-*Reusable lenses*:
+**Reusable lenses**:
 ```scala
 val f1 = lens(person)(_.address.street.name)
 
@@ -31,7 +31,7 @@ val p1: Person = f1(_.toLowerCase)
 val p2: Person = f1(_.toUpperCase)
 ```
 
-*Lens factories*: The above lens only updates a particular person. You can make even more generic lenses that can update any `Person`:
+**Lens factories**: The above lens only updates a particular person. You can make even more generic lenses that can update any `Person`:
 ```scala
 val f = lens(_: Person)(_.address.street.name)
 
@@ -39,7 +39,7 @@ val p3: Person = f(p1)(_.toUpperCase)
 val p4: Person = f(p2)(_.toLowerCase)
 ```
 
-*Lens composition*:
+**Lens composition**:
 ```scala
 val lens1: Person ~~> Address = lens(_: Person)(_.address)
 val lens2: Address ~~> String = lens(_: Address)(_.street.name)
@@ -50,7 +50,7 @@ val p5: Person = lens3(person)(_.toLowerCase)
 
 Consult [the tests](src/test/scala/com/github/pathikrit/sauron/suites/SauronSuite.scala) for more examples.
 
-Usage: In your `build.sbt`, add the following entries:
+**sbt**: In your `build.sbt`, add the following entries:
 
 ```scala
 resolvers += Resolver.bintrayRepo("pathikrit", "maven")
