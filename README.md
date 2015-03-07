@@ -1,4 +1,4 @@
-Sauron [![Circle CI](https://circleci.com/gh/pathikrit/sauron.svg?style=svg)](https://circleci.com/gh/pathikrit/sauron) [![Download](https://api.bintray.com/packages/pathikrit/maven/sauron/images/download.svg)](https://bintray.com/pathikrit/maven/sauron/_latestVersion)
+Sauron [![Circle CI](https://img.shields.io/circleci/project/pathikrit/sauron.svg)](https://circleci.com/gh/pathikrit/sauron) [![Download](https://api.bintray.com/packages/pathikrit/maven/sauron/images/download.svg)](https://bintray.com/pathikrit/maven/sauron/_latestVersion)
 --------
 
 Lightweight [lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in less than [40-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
@@ -47,8 +47,6 @@ val lens2: Address ~~> String = lens(_: Address)(_.street.name)
 val lens3: Person ~~> String = lens1 andThenLens lens2 // or lens2 composeLens lens1
 val p5: Person = lens3(person)(_.toLowerCase)
 ```
-
-Consult [the tests](src/test/scala/com/github/pathikrit/sauron/suites/SauronSuite.scala) for more examples.
 
 **sbt**: In your `build.sbt`, add the following entries:
 
