@@ -38,4 +38,8 @@ package object sauron {
     def andThenLens[C](g: B ~~> C): A ~~> C = x => y => f(x)(g(_)(y))
     def composeLens[C](g: C ~~> A): C ~~> B = g andThenLens f
   }
+
+  implicit class UpdaterOps[A, B](val f: Updater[A, B]) extends AnyVal {
+    def setTo(v: B): A = f(_ => v)
+  }
 }
