@@ -11,6 +11,7 @@ val person = Person(Address(Street("1 Functional Rd.")))
 
 import com.github.pathikrit.sauron._
 
+lens(person)(_.address.street.name).setTo("1 Objective Rd.")
 lens(person)(_.address.street.name)(_.toUpperCase)
 ```
 
@@ -21,11 +22,6 @@ person.copy(address = person.address.copy(
     name = (person.address.street.name).toUpperCase)
   )
 )
-```
-
-**Simple setters**:
-```scala
-lens(person)(_.address.street.name).setTo("1 Objective Rd.")
 ```
 
 **Reusable lenses**:

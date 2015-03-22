@@ -7,10 +7,10 @@ class SauronSuite extends FunSuite {
     import com.github.pathikrit.sauron._
 
     case class Person(name: String, address: Address)
-    case class Address(street: Street, street2: Option[Street], city: String, state: String, zip: String, country: String)
+    case class Address(street: Street, street2: List[Street], city: String, state: String, zip: String, country: Option[String])
     case class Street(name: String)
 
-    val p1 = Person("Rick", Address(Street("Rock St"), None, "MtV", "CA", "94041", "USA"))
+    val p1 = Person("Rick", Address(Street("Rock St"), Nil, "MtV", "CA", "94041", Some("USA")))
     def addHouseNumber(number: Int)(st: String) = s"$number $st"
 
     val p2 = lens(p1)(_.address.street.name)(addHouseNumber(1901))
@@ -37,6 +37,18 @@ class SauronSuite extends FunSuite {
 
     val p5: Person = lens(p1)(_.address.street.name).setTo("Rick St")
     p5.address.street.name shouldEqual "Rick St"
+    lens(p1)(_.address.street2.each.name)(_.toUpperCase)
+
+    def f(s: String) = s.toUpperCase
+
+    p1.copy(
+      address = p1.address.copy(
+        street2 = p1.address.street2.map(el => el.copy(name = f(el.name)))
+      )
+    )
+
+    // should not typecheck
+
 
     "lens(p1)(_.address.zip)(_.toUpperCase)" should compile
     "lens(p1)(_.address.zip.length)(_ + 1)" shouldNot compile
