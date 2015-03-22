@@ -1,5 +1,6 @@
 package com.github.pathikrit
 
+import scala.annotation.compileTimeOnly
 import scala.reflect.macros.blackbox
 
 package object sauron {
@@ -14,8 +15,12 @@ package object sauron {
   def lensImpl[A, B](c: blackbox.Context)(obj: c.Expr[A])(path: c.Expr[A => B]): c.Tree = {
     import c.universe._
 
+    case class PathElement(term: c.TermName, isEach: Boolean)
+
     def split(accessor: c.Tree): List[c.TermName] = accessor match {      // (_.p.q.r) -> List(p, q, r)
       case q"$pq.$r" => split(pq) :+ r
+      case q"$tpName[..$_]($r)" if tpName.toString.contains("sauron.`package`.IterableOps") =>
+        c.abort(c.enclosingPosition, s"Hooray: $accessor, $r")
       case _: Ident => Nil
       case _ => c.abort(c.enclosingPosition, s"Unsupported path element: $accessor")
     }
@@ -41,5 +46,13 @@ package object sauron {
 
   implicit class UpdaterOps[A, B](val f: Updater[A, B]) extends AnyVal {
     def setTo(v: B): A = f(_ => v)
+  }
+
+  implicit class IterableOps[A](val l: Iterable[A]) extends AnyVal {
+    @compileTimeOnly(IterableOps.errorMsg) def each: A = throw new UnsupportedOperationException(IterableOps.errorMsg)
+  }
+
+  object IterableOps {
+    def errorMsg = ".each can only be used within sauron's lens macro"
   }
 }
