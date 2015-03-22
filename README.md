@@ -1,4 +1,4 @@
-Sauron [![Circle CI](https://img.shields.io/circleci/project/pathikrit/sauron.svg)](https://circleci.com/gh/pathikrit/sauron) [![Download](https://api.bintray.com/packages/pathikrit/maven/sauron/images/download.svg)](https://bintray.com/pathikrit/maven/sauron/_latestVersion)
+Sauron [![Circle CI](https://img.shields.io/circleci/project/pathikrit/sauron/master.svg)](https://circleci.com/gh/pathikrit/sauron) [![Download](https://api.bintray.com/packages/pathikrit/maven/sauron/images/download.svg)](https://bintray.com/pathikrit/maven/sauron/_latestVersion)
 --------
 
 Lightweight [lens library](http://stackoverflow.com/questions/3900307/cleaner-way-to-update-nested-structures) in less than [50-lines of Scala](src/main/scala/com/github/pathikrit/sauron/package.scala):
